@@ -3,3 +3,4 @@ export interface WidgetData {
   name: string;
   value: number;
 }
+export type WidgetUpdate = Omit<WidgetData, 'name'>;
