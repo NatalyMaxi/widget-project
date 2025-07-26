@@ -1,33 +1,35 @@
+@use '@/styles/variables' as *;
+
 .widget {
   display: flex;
   flex-direction: column;
-  width: 44px;
-  height: 24px;
-  background-color: #cccccc;
-  border: 1px solid #000;
+  width: $widget-width;
+  height: $widget-height;
+  background-color: $widge-color;
+  border: 1px solid $dark-color;
   padding: 2px;
-}
 
-.widgetName {
-  font-size: 8px;
-  line-height: 8px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
+  .widgetName {
+    font-size: 8px;
+    line-height: 8px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 
-.widgetValue {
-  margin-left: auto;
-  font-size: 10px;
-  line-height: 10px;
-}
+  .widgetValue {
+    margin-left: auto;
+    font-size: 10px;
+    line-height: 10px;
+  }
 
-.positive {
-  background-color: #ff0000;
-  color: white;
-}
+  &.positive {
+    background-color: $positive-color;
+    color: $light-text-color;
+  }
 
-.negative {
-  background-color: #0000ff;
-  color: white;
+  &.negative {
+    background-color: $negative-color;
+    color: $light-text-color;
+  }
 }

@@ -7,18 +7,17 @@ import styles from './Widget.module.scss';
 interface IWidgetProps {
   name: string;
   value: number;
-  id: number;
 }
 const THRESHOLDS = { positive: 50, negative: -50 };
 
 export const Widget = memo(
-  ({ name, value, id }: IWidgetProps) => {
+  ({ name, value }: IWidgetProps) => {
     const widgetClass = getValueColorClass(value, THRESHOLDS, {
       default: styles.widget,
       positive: styles.positive,
       negative: styles.negative,
     });
-    console.log('обновление виджет', id);
+
     return (
       <div className={widgetClass}>
         <span className={styles.widgetName}>{name}</span>

@@ -1,0 +1,37 @@
+@use '@/styles/variables' as *;
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+
+  .wrapper {
+    display: flex;
+    align-items: center;
+    font-size: 1.5rem;
+    color: $dark-text-color;
+  }
+  .dot {
+    animation: loading 1.5s infinite ease-in-out;
+  }
+
+  .dotTwo {
+    animation-delay: 0.5s;
+  }
+
+  .dotThree {
+    animation-delay: 1s;
+  }
+}
+
+@keyframes loading {
+  0%,
+  80%,
+  100% {
+    opacity: 0.2;
+  }
+  40% {
+    opacity: 1;
+  }
+}

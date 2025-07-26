@@ -1,0 +1,14 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(30, 44px);
+  gap: 4px;
+  margin: 0 auto;
+  width: max-content;
+  padding: 0;
+  height: 100%;
+}
+
+.item {
+  list-style: none;
+  padding: 0;
+}
