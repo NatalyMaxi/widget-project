@@ -1,3 +1,19 @@
 .page {
-  display: flex;
+  width: 100%;
+  background-color: antiquewhite;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(30, 44px);
+  gap: 4px;
+  margin: 0 auto;
+  border: 1px solid blue;
+  width: max-content;
+  padding: 0;
+}
+
+.item {
+  list-style: none;
+  padding: 0;
 }
