@@ -26,9 +26,8 @@ export const Widget = memo(
     });
 
     // Эта консоль отображает, что перерисуются только виджеты у которых изменилось значение.
-    // console.log(`render Widget ${id}`);
 
-    console.log(`render Widget ${id}`);
+    //console.log(`render Widget ${id}`);
 
     return (
       <div className={widgetClass}>
