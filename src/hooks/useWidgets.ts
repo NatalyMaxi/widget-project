@@ -1,30 +1,27 @@
-import { useState, useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 
+import { useAppDispatch, useAppSelector } from '@/store/store';
+import { setWidgets, selectWidgets } from '@/store/widgetsSlice';
+
+import { WIDGETS_FETCH_ERROR } from '@/constants/errors';
 import { apiFetch } from '@/utils/api';
 import { WidgetData } from '@/types/widget';
-import { WIDGETS_FETCH_ERROR } from '@/constants/errors';
 
 export const useWidgets = () => {
-  const [widgets, setWidgets] = useState<WidgetData[]>([]);
-  const [widgetValues, setWidgetValues] = useState<Record<number, number>>({});
-  const idToIndexRef = useRef<Map<number, number>>(new Map());
+  const dispatch = useAppDispatch();
+  const widgets = useAppSelector(selectWidgets);
 
   useEffect(() => {
     const fetchWidgets = async () => {
       try {
         const data = await apiFetch<WidgetData[]>('/widgets');
-        setWidgets(data);
-        setWidgetValues(Object.fromEntries(data.map((w) => [w.id, w.value])));
-
-        const idToIndex = new Map<number, number>();
-        data.forEach((w, index) => idToIndex.set(w.id, index));
-        idToIndexRef.current = idToIndex;
+        dispatch(setWidgets(data));
       } catch (error) {
         console.error(WIDGETS_FETCH_ERROR, error);
       }
     };
     fetchWidgets();
-  }, []);
+  }, [dispatch]);
 
-  return { widgets, widgetValues, setWidgetValues, idToIndexRef };
+  return { widgets };
 };
