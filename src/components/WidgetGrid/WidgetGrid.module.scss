@@ -1,14 +1,19 @@
-.grid {
-  display: grid;
-  grid-template-columns: repeat(30, 44px);
-  gap: 4px;
-  margin: 0 auto;
-  width: max-content;
-  padding: 0;
-  height: 100%;
-}
+@use '@/styles/variables' as v;
+@use '@/styles/mixins';
 
-.item {
-  list-style: none;
-  padding: 0;
+.grid {
+  @include mixins.responsiveGrid($outerOffset: v.$page-padding-outer-space-desktop-xl);
+  display: grid;
+  gap: v.$widget-gap;
+  width: max-content;
+  height: 100%;
+  margin: 0 auto;
+
+  @media (max-width: 1440px) {
+    @include mixins.responsiveGrid($outerOffset: v.$page-padding-outer-space-desktop);
+  }
+
+  @media (max-width: 899px) {
+    @include mixins.responsiveGrid($outerOffset: v.$page-padding-outer-space-mobile);
+  }
 }

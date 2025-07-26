@@ -8,3 +8,15 @@ $widge-color: #cccccc;
 $widget-width: 44px;
 $widget-height: 24px;
 $widget-gap: 4px;
+
+$padding-desktop-xl: 30px;
+$padding-desktop: 20px;
+$padding-mobile: 16px;
+
+$page-padding-outer-space-desktop-xl: $padding-desktop-xl * 2;
+$page-padding-outer-space-desktop: $padding-desktop * 2;
+$page-padding-outer-space-mobile: $padding-mobile * 2;
+
+$base-columns: 2;
+$max-columns: 48;
+$grid-outer-offset: 40px;
