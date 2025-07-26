@@ -31,7 +31,7 @@ export const WidgetGrid = () => {
   }
 
   // Эта консоль отображает частоту ререндера WidgetGrid, показывает, что компонент не перерисовывается, если меняются значения у некоторых виджетов
-  console.log('render WidgetGrid');
+  //console.log('render WidgetGrid');
 
   return (
     <ul className={styles.grid}>
