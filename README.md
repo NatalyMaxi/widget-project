@@ -1,36 +1,52 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Widget Project
 
-## Getting Started
+#### 📜 Описание
 
-First, run the development server:
+Проект отображает 10 000 виджетов с обновлением данных в реальном времени через WebSocket.
+Каждый виджет — прямоугольник размером 44×24 пикселя, с цветовой индикацией и обновляющимся значением.
+Интерфейс адаптивный и подстраивается под размер окна с возможностью прокрутки, если виджеты не помещаются.
+
+##### 🚀 Как запустить проект
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Клонирование репозитория
+git clone https://github.com/NatalyMaxi/widget-project
+cd widget-project
+
+# Соберите и запустите контейнеры:
+
+docker compose up --build
+
+# Откройте в браузере:
+
+http://localhost:3000
+
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+| Команда           | Описание                                       |
+| ----------------- | ---------------------------------------------- |
+| В папке frontend: |                                                |
+| `yarn dev`        | Запуск фронтенда в режиме разработки           |
+| `yarn build`      | Сборка production-версии фронтенда             |
+| `yarn lint`       | Проверка кода фронтенда (ESLint)               |
+| `yarn lint-fix`   | Автоисправление ошибок ESLint во фронтенде     |
+| `yarn format`     | Форматирование файлов фронтенда через Prettier |
+| В папке backend:  |                                                |
+| `yarn dev`        | Запуск бэкенда в режиме разработки             |
+| `yarn build`      | Компиляция TypeScript бэкенда                  |
+| `yarn start`      | Запуск скомпилированного бэкенда (production)  |
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+##### 📁 Технологии
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Next.js 15
+- React 19
+- TypeScript 5
+- Express 4
+- ws (WebSocket)
+- Docker
+- Husky
+- ESLint
+- Prettier
+- Yarn
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+[Ссылка на репозиторий](https://github.com/NatalyMaxi/widget-project)
