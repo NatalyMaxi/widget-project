@@ -1,0 +1,37 @@
+@use '@/styles/variables' as v;
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  padding: 6px;
+  width: 170px;
+  background-color: v.$secondary-color;
+  border-radius: 6px;
+  border: none;
+  transition: all 0.2s ease;
+  cursor: pointer;
+
+  &:hover {
+    background-color: v.$dark-color;
+    color: v.$light-text-color;
+    .text {
+      color: v.$light-text-color;
+    }
+  }
+
+  .text {
+    color: v.$dark-color;
+    transition: color 0.2s ease;
+  }
+
+  @media (max-width: 767px) {
+    width: 120px;
+    padding: 4px;
+
+    .text {
+      font-size: 10px;
+    }
+  }
+}

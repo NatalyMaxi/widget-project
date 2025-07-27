@@ -1,9 +1,14 @@
+import { ReduxProvider } from '@/components/ReduxProvider';
+import { WidgetGrid } from '@/components';
+
 import styles from './page.module.scss';
 
 export default function Home() {
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>Hello world!</main>
-    </div>
+    <main className={styles.page}>
+      <ReduxProvider>
+        <WidgetGrid />
+      </ReduxProvider>
+    </main>
   );
 }
