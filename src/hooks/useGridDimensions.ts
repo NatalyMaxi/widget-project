@@ -1,5 +1,4 @@
-import { useWindowWidth } from './useWindowWidth';
-import { useWindowHeight } from './useWindowHeight';
+import { useWindowHeight, useWindowWidth } from '@/hooks';
 import {
   WIDGET_WIDTH,
   WIDGET_HEIGHT,

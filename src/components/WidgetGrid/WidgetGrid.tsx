@@ -7,9 +7,13 @@ import { selectWidgets, selectWidgetsLoading, selectWidgetsError } from '@/store
 
 import { ErrorPage, Loading } from '@/components';
 import { Cell } from './Cell';
-import { useWidgetUpdates } from '@/hooks/useWidgetUpdates';
-import { useFetchWidgets } from '@/hooks/useFetchWidgets';
-import { useGridDimensions } from '@/hooks/useGridDimensions';
+import {
+  useDebouncedCallback,
+  useFetchWidgets,
+  useGridDimensions,
+  useOverscanRowCount,
+  useWidgetUpdates,
+} from '@/hooks';
 import { WIDGET_WIDTH, GAP, WIDGET_HEIGHT } from '@/constants/layout';
 import { WS_BASE_URL } from '@/constants/network';
 import { reloadPage } from '@/utils/reloadPage';
@@ -28,6 +32,12 @@ export const WidgetGrid: React.FC = () => {
 
   const { columnCount, rowCount, gridWidth, gridHeight } = useGridDimensions(widgets.length);
 
+  const { overscanRowCount, updateOverscan } = useOverscanRowCount();
+
+  const handleScroll = useDebouncedCallback<[{ scrollTop: number }]>(({ scrollTop }) => {
+    updateOverscan(scrollTop);
+  }, 100);
+
   if (loading) return <Loading />;
   if (error) {
     return <ErrorPage errorMessage={error} onRetry={retry} onReloadPage={reloadPage} />;
@@ -44,7 +54,8 @@ export const WidgetGrid: React.FC = () => {
         rowCount={rowCount}
         rowHeight={WIDGET_HEIGHT + GAP}
         width={gridWidth}
-        overscanRowCount={10}
+        overscanRowCount={overscanRowCount}
+        onScroll={handleScroll}
       >
         {(props: GridChildComponentProps) => <Cell {...props} widgets={widgets} columnCount={columnCount} />}
       </FixedSizeGrid>
