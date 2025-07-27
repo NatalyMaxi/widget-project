@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useMemo } from 'react';
+import { memo } from 'react';
 
 import { Widget } from '@/components';
 import { WIDGET_WIDTH } from '@/constants/layout';
@@ -15,19 +15,14 @@ type CellProps = GridChildComponentProps & {
 export const Cell = memo(({ columnIndex, rowIndex, style, widgets, columnCount }: CellProps) => {
   const index = rowIndex * columnCount + columnIndex;
 
-  const isLastColumn = columnIndex === columnCount - 1;
-
-  const adjustedStyle = useMemo(
-    () => ({
-      ...style,
-      width: isLastColumn ? WIDGET_WIDTH : style.width,
-    }),
-    [style, isLastColumn],
-  );
-
   if (index >= widgets.length) return null;
 
   const widget = widgets[index];
+
+  const adjustedStyle = {
+    ...style,
+    width: WIDGET_WIDTH,
+  };
 
   return (
     <div style={adjustedStyle}>

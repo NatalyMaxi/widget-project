@@ -1,6 +1,6 @@
 import { useWindowWidth } from './useWindowWidth';
-import { WIDGET_WIDTH, GAP, SCROLLBAR_WIDTH, WIDGET_HEIGHT, PAGE_PADDING } from '@/constants/layout';
-import { getGridConfig } from '@/utils/grid';
+import { WIDGET_WIDTH, GAP, SCROLLBAR_WIDTH, WIDGET_HEIGHT } from '@/constants/layout';
+import { getPagePadding } from '@/utils/getPagePadding';
 
 interface GridDimensions {
   columnCount: number;
@@ -10,9 +10,16 @@ interface GridDimensions {
 }
 
 /**
- * Хук для вычисления размеров и параметров сетки с виджетами
- * @param widgetsLength - количество виджетов
- * @returns {GridDimensions} - конфигурация сетки: количество колонок, строк, ширина и высота сетки
+ * Хук для вычисления размеров и параметров сетки с виджетами.
+ * Рассчитывает количество колонок, строк, ширину и высоту сетки,
+ * учитывая ширину окна, паддинги, отступы и место под скролл.
+ *
+ * @param widgetsLength - Количество виджетов для отображения в сетке.
+ * @returns {GridDimensions} - Объект с параметрами сетки:
+ *   - columnCount: количество колонок
+ *   - rowCount: количество строк
+ *   - gridWidth: ширина контейнера сетки с учётом скролла
+ *   - gridHeight: высота контейнера сетки
  */
 export const useGridDimensions = (widgetsLength: number): GridDimensions => {
   const windowWidth = useWindowWidth();
@@ -21,14 +28,21 @@ export const useGridDimensions = (widgetsLength: number): GridDimensions => {
     return { columnCount: 0, rowCount: 0, gridWidth: 0, gridHeight: 0 };
   }
 
-  const effectiveWidth = windowWidth - PAGE_PADDING;
-  const availableWidth = Math.max(effectiveWidth - SCROLLBAR_WIDTH, 0);
-  const { columns: columnCount } = getGridConfig(availableWidth);
+  const PAGE_PADDING = getPagePadding(windowWidth);
+
+  const containerWidth = windowWidth - PAGE_PADDING;
+
+  const scrollBarSpace = SCROLLBAR_WIDTH;
+
+  const availableWidth = containerWidth - scrollBarSpace;
+
+  const columnCount = Math.floor(availableWidth / (WIDGET_WIDTH + GAP));
+
+  const baseGridWidth = columnCount * (WIDGET_WIDTH + GAP);
+
+  const gridWidth = baseGridWidth + scrollBarSpace;
 
   const rowCount = Math.ceil(widgetsLength / columnCount);
-
-  const baseGridWidth = WIDGET_WIDTH * columnCount + GAP * (columnCount - 1);
-  const gridWidth = Math.min(availableWidth, baseGridWidth) + SCROLLBAR_WIDTH;
 
   const minRowsVisible = 10;
   const calculatedGridHeight = minRowsVisible * (WIDGET_HEIGHT + GAP) - GAP;
