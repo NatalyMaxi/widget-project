@@ -7,6 +7,8 @@ import { WIDGET_WIDTH } from '@/constants/layout';
 import type { GridChildComponentProps } from '@/types/grid';
 import type { WidgetData } from '@/types/widget';
 
+import styles from './WidgetGrid.module.scss';
+
 type CellProps = GridChildComponentProps & {
   widgets: WidgetData[];
   columnCount: number;
@@ -25,7 +27,7 @@ export const Cell = memo(({ columnIndex, rowIndex, style, widgets, columnCount }
   };
 
   return (
-    <div style={adjustedStyle}>
+    <div style={adjustedStyle} className={styles.cell}>
       <Widget id={widget.id} name={widget.name} />
     </div>
   );

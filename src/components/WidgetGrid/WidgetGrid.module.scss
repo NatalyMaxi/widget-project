@@ -2,11 +2,20 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 32px 0;
+  padding-block: 32px;
   overflow: auto;
   min-height: 100vh;
-}
 
-.gridInner {
-  outline: none;
+  @media (max-width: 767px) {
+    padding-block: 16px;
+  }
+}
+.cell {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: scale(1.5);
+    z-index: 10;
+  }
 }

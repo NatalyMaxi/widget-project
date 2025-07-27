@@ -1,6 +1,13 @@
 import { useWindowWidth } from './useWindowWidth';
 import { useWindowHeight } from './useWindowHeight';
-import { WIDGET_WIDTH, WIDGET_HEIGHT, GAP, SCROLLBAR_WIDTH, PAGE_PADDING_BLOCK } from '@/constants/layout';
+import {
+  WIDGET_WIDTH,
+  WIDGET_HEIGHT,
+  GAP,
+  SCROLLBAR_WIDTH,
+  PAGE_PADDING_BLOCK,
+  MOBILE_BREAKPOINT,
+} from '@/constants/layout';
 import { getPagePadding } from '@/utils/getPagePadding';
 
 interface GridDimensions {
@@ -18,8 +25,8 @@ interface GridDimensions {
  * отступов между ячейками и запаса под горизонтальный скролл.
  *
  * - gridWidth ограничивает ширину контейнера и включает место под скролл.
- * - gridHeight ограничивает высоту, вмещающую видимые ряды.
- * - rowCount указывает общее число строк, необходимое для всех виджетов (включая те, что не помещаются).
+ * - gridHeight ограничивает высоту, вмещающую только видимые ряды.
+ * - rowCount указывает общее число строк, необходимое для всех виджетов (включая скрытые).
  *
  * @param widgetsLength - Общее количество виджетов для отображения в сетке.
  * @returns {GridDimensions} - Объект с параметрами сетки:
@@ -48,9 +55,11 @@ export const useGridDimensions = (widgetsLength: number): GridDimensions => {
   const gridWidth = baseGridWidth + scrollBarSpace;
 
   // --- Высота сетки ---
-  const availableHeight = windowHeight - PAGE_PADDING_BLOCK * 2;
-  const visibleRowCount = Math.floor(availableHeight / (WIDGET_HEIGHT + GAP));
+  const isMobile = windowWidth <= MOBILE_BREAKPOINT;
+  const paddingToSubtract = isMobile ? PAGE_PADDING_BLOCK : PAGE_PADDING_BLOCK * 2;
+  const availableHeight = windowHeight - paddingToSubtract;
 
+  const visibleRowCount = Math.floor(availableHeight / (WIDGET_HEIGHT + GAP));
   const rowCount = Math.ceil(widgetsLength / columnCount);
   const gridHeight = visibleRowCount * (WIDGET_HEIGHT + GAP);
 
