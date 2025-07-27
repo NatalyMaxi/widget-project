@@ -5,19 +5,20 @@ import { FixedSizeGrid } from 'react-window';
 import { useAppSelector } from '@/store/store';
 import { selectWidgets, selectWidgetsLoading, selectWidgetsError } from '@/store/widgetsSlice';
 
-import { Loading } from '@/components';
+import { ErrorPage, Loading } from '@/components';
 import { Cell } from './Cell';
 import { useWidgetUpdates } from '@/hooks/useWidgetUpdates';
 import { useFetchWidgets } from '@/hooks/useFetchWidgets';
 import { useGridDimensions } from '@/hooks/useGridDimensions';
 import { WIDGET_WIDTH, GAP, WIDGET_HEIGHT } from '@/constants/layout';
 import { WS_BASE_URL } from '@/constants/network';
+import { reloadPage } from '@/utils/reloadPage';
 import type { GridChildComponentProps } from '@/types/grid';
 
 import styles from './WidgetGrid.module.scss';
 
 export const WidgetGrid: React.FC = () => {
-  useFetchWidgets();
+  const retry = useFetchWidgets();
 
   const widgets = useAppSelector(selectWidgets);
   const loading = useAppSelector(selectWidgetsLoading);
@@ -28,7 +29,9 @@ export const WidgetGrid: React.FC = () => {
   const { columnCount, rowCount, gridWidth, gridHeight } = useGridDimensions(widgets.length);
 
   if (loading) return <Loading />;
-  if (error) return <div className={styles.error}>{error}</div>;
+  if (error) {
+    return <ErrorPage errorMessage={error} onRetry={retry} onReloadPage={reloadPage} />;
+  }
   if (widgets.length === 0 || columnCount === 0) return null;
 
   return (

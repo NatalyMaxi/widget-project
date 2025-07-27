@@ -25,13 +25,21 @@ export const fetchWidgets = createAsyncThunk<WidgetData[], void, { rejectValue: 
     try {
       const data = await apiFetch<WidgetData[]>('/widgets');
       return data;
-    } catch (error) {
-      console.error(WIDGETS_FETCH_ERROR, error);
-      return rejectWithValue(WIDGETS_FETCH_ERROR);
+    } catch (error: unknown) {
+      let message = '';
+
+      if (error instanceof Error) {
+        message = error.message;
+      } else {
+        message = String(error);
+      }
+
+      const fullError = `${WIDGETS_FETCH_ERROR} ${message}`;
+      console.error(fullError);
+      return rejectWithValue(fullError);
     }
   },
 );
-
 const widgetsSlice = createSlice({
   name: 'widgets',
   initialState,
