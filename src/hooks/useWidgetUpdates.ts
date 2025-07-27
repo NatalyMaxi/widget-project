@@ -1,50 +1,33 @@
-import { useEffect, useRef } from 'react';
-import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
 
-import { AppDispatch } from '@/store/store';
 import { updateWidgetValue } from '@/store/widgetsSlice';
+import { useAppDispatch } from '@/store/store';
 
-import { WidgetUpdate } from '@/types/widget';
 import { WS_CONNECTION_ERROR, WS_DATA_ERROR } from '@/constants/errors';
+import type { WidgetUpdate } from '@/types/widget';
 
-export const useWidgetUpdates = (wsUrl: string) => {
-  const dispatch: AppDispatch = useDispatch();
-  const ws = useRef<WebSocket | null>(null);
+export const useWidgetUpdates = (wsUrl: string, onUpdate?: (update: { id: number; value: number }) => void) => {
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const onOpen = () => {
-      console.log('WebSocket connected');
-    };
+    const ws = new WebSocket(wsUrl);
 
-    const onMessage = (msg: MessageEvent) => {
+    ws.onmessage = (msg) => {
       try {
         const data = JSON.parse(msg.data) as WidgetUpdate;
         dispatch(updateWidgetValue(data));
+        if (onUpdate) onUpdate(data);
       } catch (error) {
-        console.error(WS_DATA_ERROR, error);
+        console.error(WS_DATA_ERROR, error, error);
       }
     };
 
-    const onError = (err: Event) => {
+    ws.onerror = (err) => {
       console.error(WS_CONNECTION_ERROR, err);
     };
 
-    const onClose = () => {
-      console.log('WebSocket disconnected');
-    };
-
-    ws.current = new WebSocket(wsUrl);
-
-    ws.current.onopen = onOpen;
-    ws.current.onmessage = onMessage;
-    ws.current.onerror = onError;
-    ws.current.onclose = onClose;
-
     return () => {
-      ws.current?.close();
-      ws.current = null;
+      ws.close();
     };
-  }, [wsUrl, dispatch]);
-
-  return ws.current;
+  }, [wsUrl, dispatch, onUpdate]);
 };

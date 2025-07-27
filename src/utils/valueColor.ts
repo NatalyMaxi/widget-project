@@ -7,11 +7,11 @@
  * @param thresholds пороговые значения { positive: number; negative: number }
  * @param classes CSS-классы { default: string; positive: string; negative: string }
  */
-export function getValueColorClass(
+export const getValueColorClass = (
   value: number,
   thresholds: { positive: number; negative: number },
   classes: { default: string; positive: string; negative: string },
-): string {
+): string => {
   if (value > thresholds.positive) {
     return `${classes.default} ${classes.positive}`;
   }
@@ -19,4 +19,4 @@ export function getValueColorClass(
     return `${classes.default} ${classes.negative}`;
   }
   return classes.default;
-}
+};

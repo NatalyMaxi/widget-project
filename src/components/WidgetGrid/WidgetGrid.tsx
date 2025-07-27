@@ -1,45 +1,50 @@
 'use client';
 
-import { Loading, Widget } from '@/components';
-import { useWidgets } from '@/hooks/useWidgets';
+import { FixedSizeGrid } from 'react-window';
+
+import { useAppSelector } from '@/store/store';
+import { selectWidgets, selectWidgetsLoading, selectWidgetsError } from '@/store/widgetsSlice';
+
+import { Loading } from '@/components';
+import { Cell } from './Cell';
 import { useWidgetUpdates } from '@/hooks/useWidgetUpdates';
-import { useChunkedRendering } from '@/hooks/useChunkedRendering';
+import { useFetchWidgets } from '@/hooks/useFetchWidgets';
+import { useGridDimensions } from '@/hooks/useGridDimensions';
+import { WIDGET_WIDTH, GAP, WIDGET_HEIGHT } from '@/constants/layout';
 import { WS_BASE_URL } from '@/constants/network';
-import { WidgetData } from '@/types/widget';
+import type { GridChildComponentProps } from '@/types/grid';
 
 import styles from './WidgetGrid.module.scss';
 
-const CHUNK_SIZE = 1500;
-const CHUNK_DELAY = 0;
+export const WidgetGrid: React.FC = () => {
+  useFetchWidgets();
 
-export const WidgetGrid = () => {
-  const { widgets } = useWidgets();
+  const widgets = useAppSelector(selectWidgets);
+  const loading = useAppSelector(selectWidgetsLoading);
+  const error = useAppSelector(selectWidgetsError);
+
   useWidgetUpdates(WS_BASE_URL);
 
-  const { visibleCount, allRendered } = useChunkedRendering({
-    itemsLength: widgets.length,
-    chunkSize: CHUNK_SIZE,
-    chunkDelay: CHUNK_DELAY,
-  });
+  const { columnCount, rowCount, gridWidth, gridHeight } = useGridDimensions(widgets.length);
 
-  if (allRendered) {
-    console.log('render WidgetGrid — all widgets rendered');
-  }
-
-  if (visibleCount === 0) {
-    return <Loading />;
-  }
-
-  // Эта консоль отображает частоту ререндера WidgetGrid, показывает, что компонент не перерисовывается, если меняются значения у некоторых виджетов
-  //console.log('render WidgetGrid');
+  if (loading) return <Loading />;
+  if (error) return <div className={styles.error}>{error}</div>;
+  if (widgets.length === 0 || columnCount === 0) return null;
 
   return (
-    <ul className={styles.grid}>
-      {widgets.slice(0, visibleCount).map(({ id, name }: WidgetData) => (
-        <li className={styles.item} key={id}>
-          <Widget name={name} id={id} />
-        </li>
-      ))}
-    </ul>
+    <div className={styles.grid}>
+      <FixedSizeGrid
+        className={styles.gridInner}
+        columnCount={columnCount}
+        columnWidth={WIDGET_WIDTH + GAP}
+        height={gridHeight}
+        rowCount={rowCount}
+        rowHeight={WIDGET_HEIGHT + GAP}
+        width={gridWidth}
+        overscanRowCount={10}
+      >
+        {(props: GridChildComponentProps) => <Cell {...props} widgets={widgets} columnCount={columnCount} />}
+      </FixedSizeGrid>
+    </div>
   );
 };
