@@ -1,12 +1,13 @@
-@use '@/styles/variables' as *;
+@use '@/styles/variables' as v;
 
 .widget {
   display: flex;
   flex-direction: column;
-  width: $widget-width;
-  height: $widget-height;
-  background-color: $widge-color;
-  border: 1px solid $dark-color;
+  width: v.$widget-width;
+  height: v.$widget-height;
+  background-color: v.$secondary-color;
+  border: 1px solid v.$primary-color;
+  border-radius: 4px;
   padding: 2px;
 
   .widgetName {
@@ -24,12 +25,12 @@
   }
 
   &.positive {
-    background-color: $positive-color;
-    color: $light-text-color;
+    background-color: v.$positive-color;
+    color: v.$light-text-color;
   }
 
   &.negative {
-    background-color: $negative-color;
-    color: $light-text-color;
+    background-color: v.$negative-color;
+    color: v.$light-text-color;
   }
 }
