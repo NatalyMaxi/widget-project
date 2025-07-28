@@ -120,17 +120,4 @@ http://localhost:3000
 | `yarn build`      | Компиляция TypeScript бэкенда                  |
 | `yarn start`      | Запуск скомпилированного бэкенда (production)  |
 
-#### 📁 Технологии
-
-- Next.js 15
-- React 19
-- TypeScript 5
-- Express 4
-- ws (WebSocket)
-- Docker
-- Husky
-- ESLint
-- Prettier
-- Yarn
-
 [Ссылка на репозиторий](https://github.com/NatalyMaxi/widget-project)
